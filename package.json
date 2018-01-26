@@ -1,0 +1,21 @@
+{
+  "name": "spoj",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "crawler": "^1.1.2",
+    "debug": "~2.6.9",
+    "ejs": "~2.5.7",
+    "express": "~4.15.5",
+    "mongoose": "^5.0.1",
+    "mongoose-create-or-update": "^1.0.3",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5"
+  }
+}
