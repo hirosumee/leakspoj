@@ -16,7 +16,7 @@ function senduserid(id) {
     },function(ketqua) {
         for(item of ketqua.data)
         {
-           $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="location.href='${item.option}'">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
+           $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
            if(item.ok)
            {
                $('#'+item.pos).prop('checked',true);
@@ -33,7 +33,7 @@ function senduserid_rev(id) {
     },function(ketqua) {
         for(item of ketqua.data)
         {
-            $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="location.href='${item.option}'">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
+            $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
             count++;
         }
         scroll+=ketqua.data.length;
@@ -43,11 +43,15 @@ function soabaiok() {
     $.post('/sobai/ok',{},function (result) {
         for(item of result.data)
         {
-            $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="location.href='${item.option}'">${item.name}</td><td>${item.url}</td><td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td></tr>`);
+            $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser(${item.option})">${item.name}</td><td>${item.url}</td><td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td></tr>`);
             count++;
         }
         scroll+=result.data.length;
     })
+}
+function OpenInNewTabWinBrowser(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
 }
 function changee(evt) {
     console.log($(evt).attr('id'))
