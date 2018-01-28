@@ -31,22 +31,28 @@ function senduserid_rev(id) {
         userid:id,
         scroll:scroll
     },function(ketqua) {
+        ketqua.data.reverse()
         for(item of ketqua.data)
         {
-            $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
-            count++;
+           $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
+           if(item.ok)
+           {
+               $('#'+item.pos).prop('checked',true);
+           }
+           count++;
         }
         scroll+=ketqua.data.length;
     });
 }
 function soabaiok() {
     $.post('/sobai/ok',{},function (result) {
-        for(item of result.data)
+        console.log(result)
+        for(item of result.success)
         {
             $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser(${item.option})">${item.name}</td><td>${item.url}</td><td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td></tr>`);
             count++;
         }
-        scroll+=result.data.length;
+        scroll+=result.success.length;
     })
 }
 function OpenInNewTabWinBrowser(url) {
@@ -89,7 +95,8 @@ $(document).ready(function () {
             })
     }
     $('#load-more').click(function () {
-        if(status)
+        console.log(status)
+        if(status>0)
         {
             if(status==1)
             {
@@ -106,6 +113,7 @@ $(document).ready(function () {
         }
     })
     $('#giamdan-dokho').click(function () {
+        $('#load-more').prop('hidden',false);
         $('tbody').empty();
         scroll=0;
         count=0;
@@ -113,6 +121,7 @@ $(document).ready(function () {
         senduserid_rev(id);
     })
     $('#tangdan-dokho').click(function () {
+        $('#load-more').prop('hidden',false);
         $('tbody').empty();
         scroll=0;
         count=0;
@@ -125,10 +134,24 @@ $(document).ready(function () {
         count=0;
         status=2;
         soabaiok();
+        $('#load-more').prop('hidden',true);
 
     });
     $('#logout').click(function () {
         document.cookie="userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location='/'
+    })
+    function search_index(key)
+    {
+        
+    }
+    $('#search').click(function(){
+        if($('#input-search').text())
+        {
+            //send request
+        }
+    });
+    $('#input-search').change(function(){
+
     })
 })

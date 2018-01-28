@@ -12,7 +12,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-express.list=JSON.parse(fs.readFileSync('./finnaly.json','utf8'));
+express.list=JSON.parse(fs.readFileSync(__dirname+'/finnaly.json','utf8'));
 var key='mongodb://hirosume:cuong299@ds129166.mlab.com:29166/chatpublic';
 mongoose.connect(key,function(err,db){
     if(err){
