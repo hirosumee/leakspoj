@@ -108,4 +108,31 @@ router.post('/change',function (req,res) {
             })
     }
 })
+router.post('/search',function(req,res){
+    
+    if(req.cookies.userid)
+    {
+        console.log(req.cookies.userid)
+        USER.Find(req.cookies.userid)
+            .then(function(data){
+                var temp=[];
+                for(let index=0;index<express.list.length;index++){
+                    //if(express.list[index].name.includes(req.body.key))
+                    {
+                        temp.push(express.list[index]);
+                        temp[temp.length-1].pos=index;
+                        temp[temp.length-1].ok=data[0].queue[index];
+                    }
+                }
+                res.send(temp);
+            })
+            .catch(function(err){
+                res.status(500).end(err);
+            })
+    }
+    else
+    {
+        res.status(300).end({});
+    }
+})
 module.exports = router;

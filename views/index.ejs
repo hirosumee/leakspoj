@@ -11,11 +11,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="/javascripts/jquery.typeahead.js"></script>
+  <link rel="stylesheet" href="/javascripts/jquery.typeahead.css">
 
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
-  <a class="navbar-brand" href="#">Navbar</a>
+  <a class="navbar-brand" href="#">GinSpoj</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" 	aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -35,8 +37,20 @@
 
         </div>
       </div>
-      <input class="form-control mr-sm-2" type="search" style="width: 520px;" placeholder="Search" id="input-search">
-      <button class="btn btn-outline-success my-2 my-sm-0" id="search" type="submit">Search</button>
+      <form id="form-country_v1" name="form-country_v1">
+      <div class="typeahead__container">
+        <div class="typeahead__field">
+            <span class="typeahead__query">
+                <input class="js-typeahead-country_v1" name="country_v1[query]" type="search" placeholder="Search" autocomplete="off">
+            </span>
+            <span class="typeahead__button">
+                <button type="submit">
+                    <i class="typeahead__search-icon"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    </form>
     </form>
   </div>
 </nav>
@@ -53,7 +67,7 @@
           <th scope="col">Tùy Chỉnh</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="content">
         </tbody>
       </table>
     </div>

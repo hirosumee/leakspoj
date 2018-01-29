@@ -16,7 +16,7 @@ function senduserid(id) {
     },function(ketqua) {
         for(item of ketqua.data)
         {
-           $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
+           $('#content').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
            if(item.ok)
            {
                $('#'+item.pos).prop('checked',true);
@@ -34,7 +34,7 @@ function senduserid_rev(id) {
         ketqua.data.reverse()
         for(item of ketqua.data)
         {
-           $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
+           $('#content').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser('${item.option}')">${item.name}</td><td>${item.url}</td><td><input onclick="changee(this)" id="${item.pos}" type="checkbox"></td></tr>`);
            if(item.ok)
            {
                $('#'+item.pos).prop('checked',true);
@@ -49,7 +49,7 @@ function soabaiok() {
         console.log(result)
         for(item of result.success)
         {
-            $('tbody').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser(${item.option})">${item.name}</td><td>${item.url}</td><td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td></tr>`);
+            $('#content').append(`<tr style="color: #ffffff;"><th scope="row">${count}</th><td onclick="OpenInNewTabWinBrowser(${item.option})">${item.name}</td><td>${item.url}</td><td><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></td></tr>`);
             count++;
         }
         scroll+=result.success.length;
@@ -141,17 +141,73 @@ $(document).ready(function () {
         document.cookie="userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         window.location='/'
     })
+    $('#sobai-todo').click(function(){
+        swal({
+                    title:"WARNING",
+                    text:"Tác giả lười không làm tiếp !!",
+                    icon:"warning"
+            })
+    })
     function search_index(key)
     {
-        
+        $.post('/search',{key:key},function(result){
+            $('#search-result').empty()
+            for(item of result.success)
+            {
+                let temp=`<tr><td scope="row">${item.url}</td> <td scope="row">${item.name}</td></tr>`
+                $('#search-result').append(temp);
+            }
+        })
     }
-    $('#search').click(function(){
-        if($('#input-search').text())
+    $.typeahead({
+    input: '.js-typeahead-country_v1',
+    order: "asc",
+    href: "/search/{{display|slugify}}/",
+    template:function(query,item){
+        var a="<div class='row'><div class='col-9'>{{name}}</div>"
+        +"<div class='col-3'><input id='{{pos}}' checked type='checkbox'>  {{url}}</div></div>";
+        var b="<div class='row'><div class='col-9'>{{name}}</div>"
+        +"<div class='col-3'><input id='{{pos}}' type='checkbox'>  {{url}}</div></div>";
+        if(item.ok)
         {
-            //send request
+            return a;
         }
+        else
+        {
+            return b;
+        }
+    },
+    emptyTemplate: 'No result for "{{query}}"',
+    source: {
+        name:{
+            display: "name",
+            href: "{{option}}",
+            ajax: function(query)
+            {
+                return {
+                type: "POST",
+                url: "/search",
+                data: {
+                    key: $('input.js-typeahead-country_v1').val()
+                },
+                callback:{
+                    done:function(data){
+                        var res=[];
+                        for(item of data)
+                        {
+                            res.push(item.name);
+                        }
+                        return data;
+                        }
+                    }
+                }
+            }
+        }
+    },
+    callback: {
+        onInit: function (node) {
+            console.log('Typeahead Initiated on ' + node.selector);
+        }
+    }
     });
-    $('#input-search').change(function(){
-
-    })
 })
